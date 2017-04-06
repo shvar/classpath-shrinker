@@ -2,6 +2,7 @@ package io.github.retronym.classpathshrinker
 
 import java.io.File
 import java.net.URI
+import java.nio.file.Paths
 
 import scala.reflect.io.AbstractFile
 import scala.tools.nsc.plugins.{Plugin, PluginComponent}
@@ -41,6 +42,11 @@ class ClassPathShrinker(val global: Global) extends Plugin with Compat {
         if (unneededClasspath.nonEmpty) {
           warning(ClassPathFeedback.createWarningMsg(unneededClasspath))
         }
+        // we don't report implicit dependencies in .jdeps
+        val usedClasspath =
+          userClasspathStrings.filter(s => usedClasspathStrings.contains(s))
+
+        BazelIntegration.generateJdeps(usedClasspath, Paths.get(global.settings.d.value).toAbsolutePath.toString)
       }
       override def apply(unit: CompilationUnit): Unit = ()
     }

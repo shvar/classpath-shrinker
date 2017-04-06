@@ -1,5 +1,5 @@
 lazy val commonSettings = Seq(
-  scalaVersion in ThisBuild := "2.12.1",
+  scalaVersion in ThisBuild := "2.11.8",
   crossScalaVersions in ThisBuild := Seq("2.11.8", "2.12.1"),
   organization in ThisBuild := "ch.epfl.scala"
 )
@@ -66,6 +66,7 @@ lazy val plugin = project.settings(
   scalaVersion in ThisBuild := "2.12.1",
   crossScalaVersions in ThisBuild := Seq("2.11.8", "2.12.1"),
   libraryDependencies += "org.scala-lang" % "scala-compiler" % scalaVersion.value,
+  libraryDependencies += "com.google.protobuf" % "protobuf-java" % "3.2.0",
   libraryDependencies ++= testDependencies,
   testOptions in Test ++= List(Tests.Argument("-v"), Tests.Argument("-s")),
   publishSettings,
